@@ -1,41 +1,47 @@
-/**************************************************************************************************************************************************************
-*Title		: main function(Driver function)
-*Description	: This function is used as the driver function for the all the functions
-***************************************************************************************************************************************************************/
 #include "apc.h"
 
-int main()
+int main(int argc,char *argv[])
 {
-	/* Declare the pointers */
-	Dlist *head1, *tail1, *head2, *tail2, *headR;
-	char option, operator;
+    Node *head1=NULL,*tail1=NULL;
+    Node *head2=NULL,*tail2=NULL;
+    Node *head_res=NULL,*tail_res=NULL;
+    int sign=1;
 
-	do
-	{
-		/* Code for reading the inputs */
+    if(validate_cla(argc,argv)==FAILURE)
+    {
+        printf("Error-> Validation failed for command line\n");
+        return FAILURE;
+    }
 
-		/* Function for extracting the operator */
+    store_number(argv[1],&head1,&tail1);
+    store_number(argv[3],&head2,&tail2);
 
-		switch (operator)
-		{
-			case '+':
-				/* call the function to perform the addition operation */
-				break;
-			case '-':	
-				/* call the function to perform the subtraction operation */
-				break;
-			case '*':	
-				/* call the function to perform the multiplication operation */
-				break;
-			case '/':	
-				/* call the function to perform the division operation */
-				break;
-			default:
-				printf("Invalid Input:-( Try again...\n");
-		}
-		printf("Want to continue? Press [yY | nN]: ");
-		scanf("\n%c", &option);
-	}while (option == 'y' || option == 'Y');
+    switch(argv[2][0])
+    {
+        case '+':
+            addition(tail1,tail2,&head_res,&tail_res);
+            break;
 
-	return 0;
+        /* case '-':
+            subtraction(head1,tail1,head2,tail2,
+                        &head_res,&tail_res,&sign);
+            break;
+        */
+    }
+
+    printf("Result: ");
+
+    Node *temp=head_res;
+
+    while(temp!=NULL)
+    {
+        printf("%d",temp->data);
+        temp=temp->next;
+    }
+
+    printf("\n");
+    free_list(&head1,&tail1);
+    free_list(&head2,&tail2);
+    free_list(&head_res,&tail_res);
+    /* Print result and free lists */
 }
